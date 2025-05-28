@@ -75,5 +75,6 @@ private fun ChangeTextTwo(initText: String = "Hello world") {
 @Composable
 fun GreetingPreview() {
     JetpackComposeAdvanceTheme {
+        ChangeTextTwo()
     }
 }
