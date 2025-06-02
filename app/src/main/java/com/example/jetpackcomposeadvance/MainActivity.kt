@@ -70,6 +70,12 @@ private fun ChangeTextTwo(initText: String = "Hello world") {
     }
 }
 
+@Composable
+private fun ShowTextUi(){
+    val text by remember { mutableStateOf("Hello world!") }
+    Text(text = text)
+}
+
 
 @Preview(showBackground = true)
 @Composable
