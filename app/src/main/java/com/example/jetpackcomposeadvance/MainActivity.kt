@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -108,6 +109,7 @@ fun ProfileCard() {
         }
     }
 }
+
 @Composable
 fun ProfileCardWithBox() {
     var message by remember { mutableStateOf("Welcome!") }
@@ -155,9 +157,27 @@ fun ProfileCardWithBox() {
                 Text("Reset")
             }
         }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = ""
+            )
+            Text(text = "text with icon")
+        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = ""
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = ""
+        )
     }
 }
-
 
 
 @Preview(showBackground = true)
