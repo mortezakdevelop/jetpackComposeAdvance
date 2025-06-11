@@ -1,7 +1,6 @@
 package com.example.jetpackcomposeadvance
 
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -21,7 +20,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,8 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,8 +47,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeAdvanceTheme {
                 Column(modifier = Modifier.fillMaxSize()) {
+                    Row {
+                        MyTextField()
+                        MyTextFieldThree()
+                        ProfileCardWithBox()
+                    }
                     //ProfileCardWithBox()
-                    MyTextField()
+
                 }
             }
         }
@@ -200,25 +201,6 @@ fun ProfileCardWithBox() {
             label = {}
         )
 
-
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            value = textValue.value,
-            onValueChange = { textValue.value = it },
-            label = {}
-        )
-
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            value = textValue.value,
-            onValueChange = { textValue.value = it },
-            label = {}
-        )
-
     }
 }
 
@@ -228,7 +210,9 @@ fun MyTextField() {
     val valueTextTwo = remember { mutableStateOf("") }
     val primaryColor = colorResource(id = R.color.purple_500)
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp),
         label = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -255,17 +239,56 @@ fun MyTextField() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTextFieldThree() {
+    val textValue = remember { mutableStateOf("") }
+    val primaryColor = colorResource(id = R.color.teal_200)
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        label = {
+            Text(modifier = Modifier.fillMaxWidth(),
+                text = stringResource(
+                    id =
+                    R.string.email
+                )
+            )
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = primaryColor,
+            focusedLabelColor = primaryColor,
+            cursorColor = primaryColor
+        ),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType
+            = KeyboardType.Email
+        ),
+        value = textValue.value,
+        onValueChange = {
+            textValue.value = it
+        },
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     JetpackComposeAdvanceTheme {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            //ProfileCardWithBox()
-            MyTextField()
+        Row {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                //ProfileCardWithBox()
+                //MyTextField()
+                MyTextField()
+                MyTextFieldThree()
+                ProfileCardWithBox()
+            }
         }
+
+
+
     }
 }
