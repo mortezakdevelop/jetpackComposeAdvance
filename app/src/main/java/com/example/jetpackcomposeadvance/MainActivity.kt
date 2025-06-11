@@ -16,10 +16,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,9 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposeadvance.ui.theme.JetpackComposeAdvanceTheme
@@ -41,7 +50,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposeAdvanceTheme {
-                ProfileCardWithBox()
+                Column(modifier = Modifier.fillMaxSize()) {
+                    //ProfileCardWithBox()
+                    MyTextField()
+                }
             }
         }
     }
@@ -110,9 +122,11 @@ fun ProfileCard() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCardWithBox() {
     var message by remember { mutableStateOf("Welcome!") }
+    val textValue = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -154,7 +168,7 @@ fun ProfileCardWithBox() {
                 Text("Greet")
             }
             Button(onClick = { message = "Welcome!" }) {
-                Text("Reset")
+                Text(text = stringResource(R.string.reset))
             }
         }
         Row(
@@ -176,14 +190,82 @@ fun ProfileCardWithBox() {
             painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = ""
         )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            value = textValue.value,
+            onValueChange = { textValue.value = it },
+            label = {}
+        )
+
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            value = textValue.value,
+            onValueChange = { textValue.value = it },
+            label = {}
+        )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            value = textValue.value,
+            onValueChange = { textValue.value = it },
+            label = {}
+        )
+
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTextField() {
+    val valueTextTwo = remember { mutableStateOf("") }
+    val primaryColor = colorResource(id = R.color.purple_500)
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
+        label = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(
+                    id =
+                    R.string.app_name
+                )
+            )
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = primaryColor,
+            focusedLabelColor = primaryColor,
+            cursorColor = primaryColor
+        ),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType
+            = KeyboardType.Email
+        ),
+        value = valueTextTwo.value,
+        onValueChange = {
+            valueTextTwo.value = it
+        },
+    )
+}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     JetpackComposeAdvanceTheme {
-        ProfileCardWithBox()
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            //ProfileCardWithBox()
+            MyTextField()
+        }
     }
 }
