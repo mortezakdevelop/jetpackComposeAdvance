@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,15 +17,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.RadioButton
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,12 +55,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposeAdvanceTheme {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Row {
-                        MyTextField()
-                        MyTextFieldThree()
-                        ProfileCardWithBox()
-                    }
+                Column(
+
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 24.dp),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    MyButton()
+                    MyRadioGroup()
+                    MyFloatingActionButton()
                     //ProfileCardWithBox()
 
                 }
@@ -245,9 +259,12 @@ fun MyTextFieldThree() {
     val textValue = remember { mutableStateOf("") }
     val primaryColor = colorResource(id = R.color.teal_200)
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         label = {
-            Text(modifier = Modifier.fillMaxWidth(),
+            Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(
                     id =
                     R.string.email
@@ -270,6 +287,67 @@ fun MyTextFieldThree() {
     )
 }
 
+@Composable
+fun MyButton() {
+    Button(
+        onClick = {},
+        colors = ButtonDefaults.buttonColors(
+            colorResource(id = R.color.teal_700)
+        ),
+        border = BorderStroke(
+            1.dp,
+            color = colorResource(id = R.color.green)
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.button_text),
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+fun MyRadioGroup() {
+    val radioButtons = listOf(0, 1, 2, 3)
+    val selectedButton = remember { mutableIntStateOf(radioButtons.first()) }
+    Column {
+        radioButtons.forEach { index -> // 3
+            val isSelected = index == selectedButton.value
+            val colors = RadioButtonDefaults.colors(
+
+                selectedColor = colorResource(
+                    id =
+                    R.color.teal_200
+                ),
+                unselectedColor = colorResource(
+                    id =
+                    R.color.teal_700
+                ),
+                Color.LightGray
+            )
+            RadioButton(
+                colors = colors,
+                selected = isSelected,
+                onClick = { selectedButton.value = index }
+            )
+        }
+    }
+}
+
+@Composable
+fun MyFloatingActionButton() {
+    FloatingActionButton(
+        onClick = {},
+        modifier = Modifier.padding(8.dp),
+        contentColor = Color.White,
+        content = {
+            Icon(
+                Icons.Filled.Favorite, contentDescription = "TestFAB"
+            )
+        }
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -284,10 +362,12 @@ fun GreetingPreview() {
                 //MyTextField()
                 MyTextField()
                 MyTextFieldThree()
-                ProfileCardWithBox()
+                // ProfileCardWithBox()
+                MyButton()
+                MyRadioGroup()
+                MyFloatingActionButton()
             }
         }
-
 
 
     }
